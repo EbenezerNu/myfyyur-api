@@ -26,7 +26,7 @@ from flask_cors import CORS
 from flask_api import status
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import or_, func
+from sqlalchemy import or_, func, asc, desc
 import logging
 from logging import Formatter, FileHandler
 from flask_wtf import Form
