@@ -153,6 +153,15 @@ def venues():
             keyword = "%{}%".format(word)
             local_ = Venue.query.filter(or_(Venue.id == word, Venue.name.ilike(keyword), Venue.city.ilike(keyword), Venue.state.ilike(keyword), func.concat(Venue.city + ", ", Venue.state).ilike(keyword))).all()
 
+        if request.args.get('sort') != None and request.args.get('sort').find(',') != -1:
+            sort_ = request.args.get('sort')
+            if sort_.split(',')[1].lower() == 'asc':
+                local_ = local_.order_by(asc(sort_.split(',')[0]))
+
+            elif sort_.split(',')[1].lower() == 'desc':
+                local_ = local_.order_by(desc(sort_.split(',')[0]))
+            
+
         data = [] 
         for i in range(len(local_)):
             past_shows = Show.query.filter(Show.start_time < datetime.now(), Show.venue_id == local_[i].id).all()
